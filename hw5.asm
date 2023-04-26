@@ -5,11 +5,13 @@
 
         section .text
 _start:
-        mov rax, SYS_WRITE
+
+        ;prompting user for weight
+        mov rax, SYS_WRITE 
         mov rdi, STDOUT
-        mov rsi, message1
-        mov rdx, mess1len
-        syscall
+        mov rsi, message1 ;moving promt to memory
+        mov rdx, mess1len ;moving promt size to memory
+        syscall ;print
 
         ;getting weight input
         mov rdi, fmtin

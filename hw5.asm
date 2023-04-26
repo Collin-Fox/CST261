@@ -61,11 +61,6 @@ _start:
         mov r13, [age] ;this should be replpaced with a constant
         mov r14, r12
         imul r14, r13
-        mov [weightResult], r14
-
-
-
-
 
 
         mov r12, [height]
@@ -84,9 +79,9 @@ _start:
 
         ;output
         mov rdi, fmt
-        mov rsi, weightResult
+        mov rsi, r12
         mov rdx, r13
-        mov rcx, weightResult
+        mov rcx, r14
         xor rax, rax
         call printf
 
@@ -113,7 +108,6 @@ message3    db  "Please enter your age in years: ", 10, 0
 mess3len    equ $- message3
 message4    db  "Please enter your sex (0) Male (1) Female: ", 10, 0
 mess4len    equ $-  message4
-weightMult  dq  4.3
 
 
 SYS_EXIT    equ 60
@@ -126,5 +120,9 @@ section .bss
     height  resb    4
     age     resb    4
     sex     resb    4
-    weightResult resb 4
+    ;change these inputs based on whether or not 0 or 1
+    weightMult resb 4
+    heightMult resb 4
+    ageMult    resb 4
+    constant   resb 4
 

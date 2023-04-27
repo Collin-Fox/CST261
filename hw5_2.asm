@@ -67,22 +67,30 @@ _start:
 
 male:
 ;make the values in multipliers
-    mov     constant, 66.00
-    mov     weightMult, 6.30
-    mov     heightMult, 12.90
-    mov     ageMult, 6.8
-    mov     sexString, "Male "
 
-    jmp     done
+    mov     eax, 660
+    mov     [constant], eax
+    mov     ebx, 63
+    mov     [weightMult], eax
+    mov     ecx, 129
+    mov     [heightMult], ecx
+    mov     eax, 68
+    mov     [ageMult], eax
+    mov     rsi, "Male "
+    mov     [sexString], rsi
 
 
 female:
 ;make the values in multipliers
-    mov     constant, 655.00
-    mov     weightMult, 4.30
-    mov     heightMult, 4.70
-    mov     ageMult, 4.70
-    mov     sexString, "Female "
+    mov     eax, 6550
+    mov     [constant], eax
+    mov     ebx, 43
+    mov     [weightMult], ebx
+    mov     ecx, 47
+    mov     [heightMult], ecx
+    mov     [ageMult], ecx
+    mov     rsi, "Female "
+    mov     [sexString], rsi
 
     jmp     done
 
@@ -90,42 +98,32 @@ done:
 
 
 ;converting weight into a double and multiplying it by its constant
+    mov         r13, [weightMult]
     mov         r14, [weight]
-    cvtsi2sd    xmm0, r14
-    mov         xmm1, xmm0
-    mulsd       [weightMult], xmm1
+    cvtsi2sd    xmm0, r13
+    cvtsi2sd    xmm1, r14
+    mulsd       xmm0, xmm1
 ;converting height into a double and multiplying it by its constant
+    mov         r13, [heightMult]
     mov         r14, [height]
-    cvtsi2sd    xmm0, r14
-    mov         xmm1, xmm0
-    mulsd       [heightMult], xmm1
+    cvtsi2sd    xmm1, r13
+    cvtsi2sd    xmm2, r14
+    mulsd       xmm1, xmm2
 ;converting age into a double and multiplying by its constant
+    mov         r13, [ageMult]
     mov         r14, [age]
-    cvtsi2sd    xmm0, r14
-    mov         xmm1, xmm0
-    mulsd       [ageMult], xmm1
+    cvtsi2sd    xmm2, r13
+    cvtsi2sd    xmm3, r14
+    mulsd       xmm2, xmm3
 
 
 ;do the additions
-    pxor    xmm2, xmm2
 
-    mov     xmm0, [constant]
-    addsd   xmm2, xmm0
-
-    pxor    xmm0, xmm0
-
-    mov     xmm0, [weightMult]
-    addsd   xmm2, [xmm0]
-
-    pxor    xmm0, xmm0
-
-    mov     xmm0, [heightMult]
-    addsd   xmm2, [xmm0]
-
-    pxor    xmm0, xmm0
-
-    mov     xmm0, [ageMult]
-    subsd   xmm2, [xmm0]
+    mov         r13, constant
+    cvtsi2sd    xmm3, r13
+    addsd   xmm3, xmm0
+    addsd   xmm3, xmm1
+    subsd   xmm3, xmm2
 
     
     
@@ -152,6 +150,8 @@ section .data
     sexPrompt       db  "Please enter your sex (0) Male (1) Female: ", 10, 0
     sexlen          equ $- sexPrompt
 
+
+
     sexComp         db  1;check if valid
 
 
@@ -169,9 +169,10 @@ section .bss
     height      resb    4
     age         resb    4
     sex         resb    4
+    weightMult  resb    4
+    heightMult  resb    4
+    ageMult     resb    4
+    constant    resb    4
 
-    weightMult  resq    8
-    heightMult  resq    8
-    ageMult     resq    8
-    constant    resq    8
+
     sexString   resq    8;check if valid

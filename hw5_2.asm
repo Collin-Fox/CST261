@@ -155,6 +155,7 @@ done:
 
 section .data
 
+    fmtoutput    db "As a %s, you would need to consume %2lf to maintain your weight based on your given height %d, weight %d, and age %d", 10, 0
     fmtin           db  "%d", 0
 
 
